@@ -121,6 +121,13 @@ entry to fix that. That is the outstanding gap.
 | File changed on disk, *Keep mine* | theirs → `.conflict-<ISO>.md`, mine → canonical path |
 | File changed on disk, file list | the `.conflict-` copy is hidden |
 | Back with unsaved edits | prompts; Discard leaves disk untouched |
+| FIND, term on the last line of a 462-line note | counted, and the view scrolls to the bottom of the document |
+| FIND, one of many matches | `n of N`; next and previous step through them |
+| FIND, next on the last match | wraps to the first match and scrolls back |
+| FIND, previous on the first match | wraps to the last match |
+| FIND, term absent | "No matches", no highlight left behind |
+| FIND, ✕ or Back | bar closes, the note stays open, highlights dropped |
+| FIND reopened | empty field, `0 of 0` — the previous query does not come back |
 
 Emulator-only test vault lives under the app's own `Documents/` tree — harmless,
 delete it whenever.
@@ -134,6 +141,33 @@ AND that the web app's `toFtsQuery` produces.
 
 No inverted index: the whole vault is a few megabytes, so a linear scan is fast. Files
 whose `(size, lastModified)` are unchanged are served from an in-memory cache.
+
+## Find in page
+
+`FIND` in the viewer searches the note you are reading, so a term you already know is in
+one long file doesn't mean scrolling it. The count, the highlighted matches and the
+scroll position all track the query as you type.
+
+Case-insensitive **literal substring** — what you type is what is matched, so `.` and `[`
+are ordinary characters. This is the same rule `VaultSearch` uses, so the two find boxes
+in the app agree. Matches are non-overlapping, so `aa` in `aaaa` is two matches, not
+three. Previous and next both wrap at the ends: a "next" that stops dead at the last hit
+reads as a bug, and there is no other affordance to continue.
+
+Each match scrolls into view a third of the way down rather than jammed against the top
+edge, so there is context to read it in.
+
+Two details that are easy to get wrong:
+
+- **The current match is always highlighted, even past the bulk limit.** Beyond
+  `FindInPage.HIGHLIGHT_LIMIT` (1000) matches are still counted and still navigable but
+  are not painted, because a span per match is enough to stutter the scroll the reader
+  is trying to do. The obvious `for (i in 0 until limit)` silently drops the highlight
+  once the index passes the limit — the active match is then past the end of the loop.
+- **Back belongs to the find bar, but the keyboard gets first refusal.** With the IME up,
+  the first Back only dismisses the keyboard; the second closes the bar. Leaving the note
+  needs a third. That is the platform's ordering, not an accident, and it is the right one
+  — a reader pressing back twice in quick succession least wants to lose their place.
 
 ## Writing
 

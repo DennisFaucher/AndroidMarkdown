@@ -30,6 +30,11 @@
     <string name="entry_today">Today</string>
     <string name="entry_today_subtitle">%1$s · not written yet</string>
     <string name="action_new_page">New page</string>
+    <string name="action_find">Find</string>
+    <string name="find_hint">Find in page</string>
+    <string name="find_count">%1$d of %2$d</string>
+    <string name="find_none">No matches</string>
+    <string name="find_zero">0 of 0</string>
     <string name="action_change_vault">Change vault</string>
     <string name="vault_choose_title">Choose a vault</string>
     <string name="vault_choose_body">More than one synced folder contains journals/ and pages/. Pick the one to use.</string>
