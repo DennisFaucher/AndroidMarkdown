@@ -1,0 +1,19 @@
+[versions]
+androidGradlePlugin = "9.4.1"
+coreKtx = "1.13.1"
+appcompat = "1.7.0"
+recyclerview = "1.3.2"
+material = "1.12.0"
+activity = "1.9.3"
+junit = "4.13.2"
+
+[libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

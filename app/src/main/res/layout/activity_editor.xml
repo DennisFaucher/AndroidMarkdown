@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/editorRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--
+      androidx Toolbar, not MaterialToolbar: this app's theme is
+      Theme.AppCompat.*, and MaterialToolbar needs a Material theme — inflating
+      it throws "Error inflating class MaterialToolbar" and the editor dies on
+      open. Matches activity_viewer.xml.
+    -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:titleTextColor="#FFFFFF" />
+
+    <com.faucherd.markdownnotes.CaretAwareEditText
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autofillHints=""
+        android:background="@null"
+        android:fontFamily="monospace"
+        android:gravity="top|start"
+        android:hint="@string/editor_hint"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine|textNoSuggestions|textVisiblePassword"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <!--
+      Plain AppCompat buttons, deliberately not ?attr/borderlessButtonStyle:
+      that is a Material attribute, and the app theme is Theme.AppCompat.*, so
+      referencing it throws "Failed to resolve attribute" at inflate time — the
+      editor died on open before this was caught by hand.
+    -->
+    <LinearLayout
+        android:id="@+id/actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"
+        android:orientation="horizontal"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="2dp">
+
+        <Button
+            android:id="@+id/promote"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/editor_promote"
+            android:minWidth="0dp"
+            android:paddingHorizontal="2dp"
+            android:text="@string/editor_promote_short"
+            android:textAllCaps="false"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/demote"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/editor_demote"
+            android:minWidth="0dp"
+            android:paddingHorizontal="2dp"
+            android:text="@string/editor_demote_short"
+            android:textAllCaps="false"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/toggleTodo"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1.2"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/editor_toggle_todo"
+            android:minWidth="0dp"
+            android:paddingHorizontal="2dp"
+            android:text="@string/editor_toggle_todo"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/undo"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/editor_undo"
+            android:minWidth="0dp"
+            android:paddingHorizontal="2dp"
+            android:text="@string/editor_undo"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/editor_save"
+            android:minWidth="0dp"
+            android:paddingHorizontal="2dp"
+            android:text="@string/editor_save"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

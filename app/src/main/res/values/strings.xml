@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MarkdownNotes</string>
+
+    <string name="search_hint">Search vault…</string>
+    <string name="search_none">No matches for “%1$s”</string>
+
+    <string name="subtitle_files">%1$s</string>
+
+    <string name="status_needs_access">Storage access needed</string>
+    <string name="status_needs_access_body">MarkdownNotes reads your notes directly from the Resilio-synced folder, so it needs permission to read all files. Nothing is uploaded anywhere.\n\nStorage root: %1$s</string>
+    <string name="grant_access">Grant access</string>
+
+    <string name="status_no_vault">Vault not found</string>
+    <string name="status_no_vault_body">No folder containing both journals/ and pages/ was found under Documents. If Resilio has not finished its first sync, or the vault lives elsewhere, this will stay empty.\n\nSearched under: %1$s</string>
+    <string name="retry">Retry</string>
+
+    <plurals name="hit_count">
+        <item quantity="one">%d line</item>
+        <item quantity="other">%d lines</item>
+    </plurals>
+
+    <string name="viewer_missing">That file no longer exists. It may have been removed or renamed by Resilio.</string>
+    <string name="viewer_unreadable">Could not read the file:\n%1$s</string>
+    <string name="viewer_empty">(this file is empty)</string>
+
+    <string name="action_edit">Edit</string>
+
+    <!-- creating notes -->
+    <string name="entry_today">Today</string>
+    <string name="entry_today_subtitle">%1$s · not written yet</string>
+    <string name="action_new_page">New page</string>
+    <string name="new_page_title">New page</string>
+    <string name="new_page_hint">Page title</string>
+    <string name="action_create">Create</string>
+    <string name="new_page_error_empty">Give the page a title</string>
+    <string name="new_page_error_unsafe">That title can\'t be turned into a filename</string>
+    <string name="save_nothing">Nothing to save yet</string>
+
+    <string name="editor_hint">Empty note</string>
+    <string name="editor_promote">Promote line (dedent)</string>
+    <string name="editor_promote_short">⇤</string>
+    <string name="editor_demote">Demote line (indent)</string>
+    <string name="editor_demote_short">⇥</string>
+    <string name="editor_toggle_todo">TODO</string>
+    <string name="editor_undo">Undo</string>
+    <string name="editor_save">Save</string>
+    <string name="editor_unreadable">That file is no longer readable.</string>
+
+    <string name="saved">Saved</string>
+    <string name="saved_with_copy">Saved — their version was kept as %1$s</string>
+    <string name="save_failed">Could not save</string>
+
+    <string name="conflict_title">This note changed on disk</string>
+    <string name="conflict_message">It was edited outside the app while you were writing — most likely Resilio brought in a change from your Mac.\n\nNothing has been overwritten.</string>
+    <string name="conflict_deleted">This file was deleted while you were editing it.</string>
+    <string name="conflict_reload_theirs">Discard mine, load their version</string>
+    <string name="conflict_keep_mine">Keep mine — save their version as a copy</string>
+    <string name="conflict_reloaded">Loaded the newer version — your edits were discarded</string>
+    <string name="conflict_preserve_failed">Could not set the other version aside, so nothing was written. Your text is still here.</string>
+
+    <string name="unsaved_title">Unsaved changes</string>
+    <string name="unsaved_message">This note has edits that are not saved yet.</string>
+    <string name="discard">Discard</string>
+    <string name="cancel">Cancel</string>
+    <string name="section_journals">Journals</string>
+    <string name="section_pages">Pages</string>
+    <string name="section_todos">To Dos</string>
+    <string name="todo_count_open">%1$d open</string>
+    <plurals name="row_count">
+        <item quantity="one">%1$d entry</item>
+        <item quantity="other">%1$d entries</item>
+    </plurals>
+    <string name="category_empty_todos">No open to-dos in the vault.</string>
+    <string name="category_empty_files">Nothing here yet. Use NEW PAGE to add one.</string>
+</resources>
