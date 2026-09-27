@@ -261,5 +261,9 @@ code that can silently reshape an outline.
 - **Block outliner** (drag/reorder blocks). Needs the 187-LOC parser port plus
   round-trip tests. Reordering lines without subtree awareness would orphan
   children, so it is all-or-nothing.
-- **Image previews** from `assets/`, **To Do/tag views**, markdown rendering. Bigger
-  everyday wins than editing, and better as a separate milestone.
+  - **Image previews** from `assets/`, **To Do/tag views**, markdown rendering. Bigger
+    everyday wins than editing, and better as a separate milestone.
+
+## License
+
+MIT — see [LICENSE](LICENSE). Forks welcome.
