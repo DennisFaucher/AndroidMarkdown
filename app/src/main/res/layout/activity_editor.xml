@@ -30,7 +30,7 @@
         android:gravity="top|start"
         android:hint="@string/editor_hint"
         android:importantForAutofill="no"
-        android:inputType="textMultiLine|textNoSuggestions|textVisiblePassword"
+        android:inputType="textMultiLine|textCapSentences"
         android:padding="16dp"
         android:scrollbars="vertical"
         android:textSize="15sp" />

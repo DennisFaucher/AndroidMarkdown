@@ -254,6 +254,21 @@ Tags inside a fenced code block are ignored, so a to-do *documenting* the
 the same trap as the web app's own property parsing, which reads fence contents
 as real properties and is a known bug there.
 
+## Keyboard
+
+The editor publishes a plain multi-line text field to the IME
+(`TYPE_CLASS_TEXT | CAP_SENTENCES | MULTI_LINE`). It deliberately does **not** set
+`TYPE_TEXT_VARIATION_VISIBLE_PASSWORD` or `FLAG_NO_SUGGESTIONS`, even though this is
+a markdown/code-ish surface where autocorrect is unwanted: those flags make an IME
+treat the field as sensitive, and GBoard responds by disabling **glide (swipe) typing**
+entirely. Verified with `dumpsys input_method` on the editor — the published
+`inputType` went from `0xa0091` to `0x24001`.
+
+Suggestion and autocorrect behaviour is therefore the keyboard's decision, not the
+app's. Turn them off in GBoard's own settings per-keyboard if they mangle markdown
+terms, and glide typing keeps working. Suppressing them from the app is what
+disabled the gesture in the first place.
+
 ## Editing
 
 | Action | Effect |
