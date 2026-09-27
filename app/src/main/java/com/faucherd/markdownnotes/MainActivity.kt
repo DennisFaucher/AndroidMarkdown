@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var vault: File? = null
 
+    /** Guards against stacking a second chooser on top of the first. */
+    private var chooserShowing = false
+    private val choices by lazy { VaultChoiceStore(this) }
+
     private val accessLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             onAccessPossiblyGranted()
@@ -34,7 +38,8 @@ class MainActivity : AppCompatActivity() {
         onCategory = { key ->
             startActivity(
                 Intent(this, CategoryActivity::class.java)
-                    .putExtra(CategoryActivity.EXTRA_CATEGORY, key),
+                    .putExtra(CategoryActivity.EXTRA_CATEGORY, key)
+                    .putExtra(CategoryActivity.EXTRA_VAULT, vault?.absolutePath),
             )
         },
     )
@@ -81,14 +86,47 @@ class MainActivity : AppCompatActivity() {
             showPermissionRequired()
             return
         }
-        val found = VaultLocator.locate()
-        if (found == null) {
-            showVaultNotFound()
-            return
+        when (val pick = VaultLocator.resolve(VaultLocator.candidates(), choices.get())) {
+            is VaultLocator.Pick.Single -> useVault(pick.vault)
+            is VaultLocator.Pick.Choice -> promptForVault(pick.candidates)
+            VaultLocator.Pick.NotFound -> showVaultNotFound()
         }
-        vault = found
+    }
+
+    private fun useVault(target: File) {
+        vault = target
         showContent()
         refreshFileList()
+    }
+
+    /**
+     * More than one vault synced in. The old behaviour silently used whichever
+     * sorted first, so the user had a working app pointed at notes they may not
+     * have meant to be reading; making them name the one they want is the only
+     * version of this that isn't a guess.
+     */
+    private fun promptForVault(candidates: List<File>) {
+        if (chooserShowing) return
+        chooserShowing = true
+        AlertDialog.Builder(this)
+            .setTitle(R.string.vault_choose_title)
+            .setItems(candidates.map { shorten(it) }.toTypedArray()) { _, which ->
+                val picked = candidates.getOrNull(which) ?: return@setItems
+                choices.set(picked)
+                useVault(picked)
+            }
+            .setOnDismissListener { chooserShowing = false }
+            .show()
+    }
+
+    /**
+     * Keeps the tail, which is the part that distinguishes two synced vaults.
+     * The full path is on screen anyway, under the toolbar.
+     */
+    private fun shorten(dir: File): String {
+        val full = dir.absolutePath
+        val keep = 56
+        return if (full.length <= keep) full else "…${full.takeLast(keep)}"
     }
 
     private fun showPermissionRequired() {
@@ -172,9 +210,24 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    /**
+     * Only offered when there is something to switch between. A menu entry that
+     * opens a list of one is a dead end the user has to reason about.
+     */
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.action_change_vault)?.isVisible =
+            VaultLocator.candidates().size > 1
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_new_page) {
             promptNewPage()
+            return true
+        }
+        if (item.itemId == R.id.action_change_vault) {
+            val candidates = VaultLocator.candidates()
+            if (candidates.size > 1) promptForVault(candidates)
             return true
         }
         return super.onOptionsItemSelected(item)

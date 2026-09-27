@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_new_page"
-        android:title="@string/action_new_page"
-        app:showAsAction="always" />
+      <item
+          android:id="@+id/action_new_page"
+          android:title="@string/action_new_page"
+          app:showAsAction="always" />
+
+      <item
+          android:id="@+id/action_change_vault"
+          android:title="@string/action_change_vault"
+          app:showAsAction="never" />
+
 </menu>

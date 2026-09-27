@@ -64,8 +64,13 @@ class CategoryActivity : AppCompatActivity() {
     )
 
     private fun refresh() {
-        val found = VaultLocator.locate()
-        if (found == null) {
+        // The vault comes from the intent rather than being resolved again.
+        // Re-running the search here would be a second, independent chance to
+        // land on a different vault than the one the user just chose — and
+        // with several synced, a category page showing another vault's counts
+        // would be worse than not opening at all.
+        val found = intent.getStringExtra(EXTRA_VAULT)?.let(::File)
+        if (found == null || !found.isDirectory) {
             // The vault cannot disappear from under a page the user is looking
             // at, but if it somehow does, leaving them on an empty screen with no
             // way back would be worse than a message.
@@ -129,6 +134,7 @@ class CategoryActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_CATEGORY = "category"
+        const val EXTRA_VAULT = "vault"
         private const val EXTRA_PATH = "path"
         private const val EXTRA_TITLE = "title"
     }

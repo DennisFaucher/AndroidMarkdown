@@ -59,11 +59,32 @@ looking for a directory containing both `journals/` and `pages/`. This tolerates
 casing difference between the Mac repo (`Docker/`) and the phone (`docker/`), a
 renamed sync root, and a shallower path.
 
+**If more than one vault syncs in, the app asks which to use** rather than picking
+one. It used to take the first match it found, so a second vault was resolved by
+alphabetical luck and the user got whichever sorted earlier with no way to find out
+a choice had been made for them. The chooser appears once, the answer is remembered,
+and **⋮ → Change vault** switches afterwards (hidden when there is only one vault,
+since a menu entry that opens a list of one is a dead end).
+
+A remembered vault is only honoured while it still looks like a vault, so a folder
+Resilio renames or deletes falls back to a fresh search rather than pinning the app
+to a directory with no notes in it. A *single* auto-discovered vault is deliberately
+not remembered — if a second one syncs in later, the question should get asked.
+
+Note the search root is still `Documents/`. A vault synced into Resilio's own app
+directory or onto an SD card will not be found, and there is no picker or path
+entry to fix that. That is the outstanding gap.
+
 ## Verified on an emulator (API 36, Pixel 6 profile)
 
 | Case | Result |
 |---|---|
 | Vault discovery at the real Resilio path | 3 files, journals before pages |
+| Two vaults synced in | chooser lists both, long paths truncated from the front |
+| Pick one, then cold start | not asked again; same vault reopened |
+| Switch via Change vault, cold start | new vault sticks |
+| Second vault deleted | stale choice ignored, falls back without asking |
+| One vault only | no overflow at all, no dead menu entry |
 | Single term present in 2 of 3 files | 2 hits with line context |
 | Two terms both in one file | 1 hit, correct file only |
 | Two terms split across two files | 2 hits, correct file only |
