@@ -1,5 +1,7 @@
 # MarkdownNotes (Android)
 
+<img width="389" height="395" alt="image" src="https://github.com/user-attachments/assets/2ccef762-7b4c-4f57-832e-98b4bca47fde" />
+
 Offline companion for the MarkdownNotes vault. Reads, searches, and edits the
 markdown files that Resilio Sync already mirrors onto the phone.
 
